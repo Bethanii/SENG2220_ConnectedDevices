@@ -1,0 +1,1555 @@
+[
+    {
+        "id": "2dca4e74ef5d80cc",
+        "type": "tab",
+        "label": "Part 2: Tutorial Follow Along",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2a4532d864bce627",
+        "type": "tab",
+        "label": "Part 3: Led on & and off ",
+        "disabled": true,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fb54de62e775f684",
+        "type": "tab",
+        "label": "Part 4: Button Click",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c35c8c76dd631a23",
+        "type": "tab",
+        "label": "Part 5: Dweet",
+        "disabled": true,
+        "info": ""
+    },
+    {
+        "id": "f18401c4661d36e5",
+        "type": "tab",
+        "label": "Part 6:Saving a file",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "868b65f0b1723561",
+        "type": "inject",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 120,
+        "wires": [
+            [
+                "a1820a6a1c01f5e6"
+            ]
+        ]
+    },
+    {
+        "id": "d529b6083fa87164",
+        "type": "debug",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "a1820a6a1c01f5e6",
+        "type": "function",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "func": "var date = new Date(msg.payload);\n\nmsg.payload = date.toString();\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 120,
+        "wires": [
+            [
+                "d529b6083fa87164"
+            ]
+        ]
+    },
+    {
+        "id": "9b59c505b0c06fc2",
+        "type": "inject",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 400,
+        "wires": [
+            [
+                "3020f74240021cea"
+            ]
+        ]
+    },
+    {
+        "id": "3020f74240021cea",
+        "type": "http request",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.csv",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 290,
+        "y": 400,
+        "wires": [
+            [
+                "30923562c9de10c1"
+            ]
+        ]
+    },
+    {
+        "id": "30923562c9de10c1",
+        "type": "csv",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 490,
+        "y": 400,
+        "wires": [
+            [
+                "ed40378e7e8d3fbc",
+                "59611ebca43d1160"
+            ]
+        ]
+    },
+    {
+        "id": "ed40378e7e8d3fbc",
+        "type": "debug",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "59611ebca43d1160",
+        "type": "switch",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "property": "payload.mag",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "7",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 650,
+        "y": 400,
+        "wires": [
+            [
+                "89b422acb22be8ba"
+            ]
+        ]
+    },
+    {
+        "id": "89b422acb22be8ba",
+        "type": "change",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "PANIC!",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 400,
+        "wires": [
+            [
+                "47e0a0f626c9a22a"
+            ]
+        ]
+    },
+    {
+        "id": "47e0a0f626c9a22a",
+        "type": "debug",
+        "z": "2dca4e74ef5d80cc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "a01e7dc9fa9a7181",
+        "type": "comment",
+        "z": "2dca4e74ef5d80cc",
+        "name": "This flow is to practice using various commands",
+        "info": "",
+        "x": 200,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "9932c1600cb1d986",
+        "type": "inject",
+        "z": "2a4532d864bce627",
+        "name": "Yellow led on",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 610,
+        "y": 300,
+        "wires": [
+            [
+                "2512cb8cdb255b4c",
+                "e12d4a69331797d9"
+            ]
+        ]
+    },
+    {
+        "id": "063a0fadcab51e4c",
+        "type": "inject",
+        "z": "2a4532d864bce627",
+        "name": "Yellow led off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 610,
+        "y": 360,
+        "wires": [
+            [
+                "2512cb8cdb255b4c",
+                "e12d4a69331797d9"
+            ]
+        ]
+    },
+    {
+        "id": "2512cb8cdb255b4c",
+        "type": "rpi-gpio out",
+        "z": "2a4532d864bce627",
+        "name": "",
+        "pin": "21",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 1000,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "e12d4a69331797d9",
+        "type": "debug",
+        "z": "2a4532d864bce627",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "cff74496689ab2e4",
+        "type": "inject",
+        "z": "2a4532d864bce627",
+        "name": "Green & Yellow led on",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 440,
+        "y": 480,
+        "wires": [
+            [
+                "2512cb8cdb255b4c",
+                "c1c951c4ce419a89"
+            ]
+        ]
+    },
+    {
+        "id": "9f1863b0c07a8586",
+        "type": "inject",
+        "z": "2a4532d864bce627",
+        "name": "Green & Yellow led off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 440,
+        "y": 540,
+        "wires": [
+            [
+                "2512cb8cdb255b4c",
+                "c1c951c4ce419a89"
+            ]
+        ]
+    },
+    {
+        "id": "c1c951c4ce419a89",
+        "type": "rpi-gpio out",
+        "z": "2a4532d864bce627",
+        "name": "",
+        "pin": "26",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 1000,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "7c89dd60bcdd1555",
+        "type": "inject",
+        "z": "2a4532d864bce627",
+        "name": "Green led on",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 650,
+        "y": 760,
+        "wires": [
+            [
+                "c1c951c4ce419a89",
+                "9b15247481bb04ba"
+            ]
+        ]
+    },
+    {
+        "id": "685eea3ed01aa286",
+        "type": "inject",
+        "z": "2a4532d864bce627",
+        "name": "Green led off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 650,
+        "y": 820,
+        "wires": [
+            [
+                "c1c951c4ce419a89",
+                "9b15247481bb04ba"
+            ]
+        ]
+    },
+    {
+        "id": "9b15247481bb04ba",
+        "type": "debug",
+        "z": "2a4532d864bce627",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "b93722529a11907c",
+        "type": "comment",
+        "z": "2a4532d864bce627",
+        "name": "Click me to read more",
+        "info": "This flow is turning an led on and off. I have two leds on my breadboard and I have configured the GPIO out command to their cordinating pins. This flow allows you to turn both leds on and off speratley and together.",
+        "x": 380,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "2b26c526e4a4e9e7",
+        "type": "inject",
+        "z": "fb54de62e775f684",
+        "name": "Yellow led on",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 570,
+        "y": 280,
+        "wires": [
+            [
+                "ff901948fa11a28b",
+                "1a78dfe129259dc8"
+            ]
+        ]
+    },
+    {
+        "id": "8eaf8b4f3dddc1d9",
+        "type": "rpi-gpio in",
+        "z": "fb54de62e775f684",
+        "name": "",
+        "pin": "23",
+        "intype": "tri",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 690,
+        "y": 200,
+        "wires": [
+            [
+                "ff901948fa11a28b"
+            ]
+        ]
+    },
+    {
+        "id": "e1ec1ec8049a7f90",
+        "type": "inject",
+        "z": "fb54de62e775f684",
+        "name": "Yellow led off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 570,
+        "y": 340,
+        "wires": [
+            [
+                "ff901948fa11a28b",
+                "1a78dfe129259dc8"
+            ]
+        ]
+    },
+    {
+        "id": "ff901948fa11a28b",
+        "type": "rpi-gpio out",
+        "z": "fb54de62e775f684",
+        "name": "",
+        "pin": "21",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 960,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "1a78dfe129259dc8",
+        "type": "debug",
+        "z": "fb54de62e775f684",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "54b3cd7022e1452d",
+        "type": "inject",
+        "z": "fb54de62e775f684",
+        "name": "Green & Yellow led on",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 400,
+        "y": 460,
+        "wires": [
+            [
+                "ff901948fa11a28b",
+                "7baf44340ad7f389"
+            ]
+        ]
+    },
+    {
+        "id": "aa318ad3f6294781",
+        "type": "inject",
+        "z": "fb54de62e775f684",
+        "name": "Green & Yellow led off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 400,
+        "y": 520,
+        "wires": [
+            [
+                "ff901948fa11a28b",
+                "7baf44340ad7f389"
+            ]
+        ]
+    },
+    {
+        "id": "7baf44340ad7f389",
+        "type": "rpi-gpio out",
+        "z": "fb54de62e775f684",
+        "name": "",
+        "pin": "26",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 960,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "1942368f6b6792e0",
+        "type": "inject",
+        "z": "fb54de62e775f684",
+        "name": "Green led on",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 610,
+        "y": 740,
+        "wires": [
+            [
+                "7baf44340ad7f389",
+                "921c075d90edb6b4"
+            ]
+        ]
+    },
+    {
+        "id": "963d3d9f13cc1e7f",
+        "type": "inject",
+        "z": "fb54de62e775f684",
+        "name": "Green led off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 610,
+        "y": 800,
+        "wires": [
+            [
+                "7baf44340ad7f389",
+                "921c075d90edb6b4"
+            ]
+        ]
+    },
+    {
+        "id": "8a5fba6b1fd7cf2d",
+        "type": "rpi-gpio in",
+        "z": "fb54de62e775f684",
+        "name": "",
+        "pin": "24",
+        "intype": "tri",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 670,
+        "y": 900,
+        "wires": [
+            [
+                "7baf44340ad7f389",
+                "921c075d90edb6b4"
+            ]
+        ]
+    },
+    {
+        "id": "921c075d90edb6b4",
+        "type": "debug",
+        "z": "fb54de62e775f684",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "84c3a85c579ec6b4",
+        "type": "comment",
+        "z": "fb54de62e775f684",
+        "name": "Click me to read more",
+        "info": "This flow is  building off of the previous flow (part 3) to implement a button click. To do this I have connected the cordinating input pins to the outputs I previously configured.",
+        "x": 380,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "d799a869396f2041",
+        "type": "http in",
+        "z": "c35c8c76dd631a23",
+        "name": "",
+        "url": "/on",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 260,
+        "y": 100,
+        "wires": [
+            [
+                "2449249bb2e8accb"
+            ]
+        ]
+    },
+    {
+        "id": "b903508b82e4fd79",
+        "type": "http in",
+        "z": "c35c8c76dd631a23",
+        "name": "",
+        "url": "/off",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 360,
+        "wires": [
+            [
+                "8afdca37725b186f"
+            ]
+        ]
+    },
+    {
+        "id": "8671f22b0158ae61",
+        "type": "http in",
+        "z": "c35c8c76dd631a23",
+        "name": "",
+        "url": "/blink",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 240,
+        "y": 620,
+        "wires": [
+            [
+                "ea3213aa61c9ddab",
+                "1ff048b32cb1c096"
+            ]
+        ]
+    },
+    {
+        "id": "1ff048b32cb1c096",
+        "type": "http response",
+        "z": "c35c8c76dd631a23",
+        "name": "HTTP Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1240,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "f0ab7dd3f51aaaa2",
+        "type": "rpi-gpio out",
+        "z": "c35c8c76dd631a23",
+        "name": "",
+        "pin": "21",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 880,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "e6a219d496ebfa96",
+        "type": "rpi-gpio out",
+        "z": "c35c8c76dd631a23",
+        "name": "",
+        "pin": "21",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 840,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "2449249bb2e8accb",
+        "type": "change",
+        "z": "c35c8c76dd631a23",
+        "name": "on",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 100,
+        "wires": [
+            [
+                "f0ab7dd3f51aaaa2",
+                "1ff048b32cb1c096"
+            ]
+        ]
+    },
+    {
+        "id": "080cad2ca8beaabb",
+        "type": "rpi-gpio out",
+        "z": "c35c8c76dd631a23",
+        "name": "",
+        "pin": "21",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 1280,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "392ced01fdcddcfe",
+        "type": "delay",
+        "z": "c35c8c76dd631a23",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 620,
+        "y": 620,
+        "wires": [
+            [
+                "4c8978341471a34d"
+            ]
+        ]
+    },
+    {
+        "id": "4c8978341471a34d",
+        "type": "function",
+        "z": "c35c8c76dd631a23",
+        "name": "on",
+        "func": "msg.payload = 1;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 620,
+        "wires": [
+            [
+                "b415878d4a08e443",
+                "080cad2ca8beaabb"
+            ]
+        ]
+    },
+    {
+        "id": "b415878d4a08e443",
+        "type": "delay",
+        "z": "c35c8c76dd631a23",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 920,
+        "y": 620,
+        "wires": [
+            [
+                "5f2b4ee089a1a984"
+            ]
+        ]
+    },
+    {
+        "id": "5f2b4ee089a1a984",
+        "type": "function",
+        "z": "c35c8c76dd631a23",
+        "name": "off",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 620,
+        "wires": [
+            [
+                "4e12b4da34508ca5",
+                "080cad2ca8beaabb"
+            ]
+        ]
+    },
+    {
+        "id": "4e12b4da34508ca5",
+        "type": "switch",
+        "z": "c35c8c76dd631a23",
+        "name": "repeat",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 710,
+        "y": 780,
+        "wires": [
+            [
+                "392ced01fdcddcfe"
+            ],
+            [
+                "ea3213aa61c9ddab"
+            ]
+        ]
+    },
+    {
+        "id": "ea3213aa61c9ddab",
+        "type": "function",
+        "z": "c35c8c76dd631a23",
+        "name": "off",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 620,
+        "wires": [
+            [
+                "392ced01fdcddcfe"
+            ]
+        ]
+    },
+    {
+        "id": "8afdca37725b186f",
+        "type": "change",
+        "z": "c35c8c76dd631a23",
+        "name": "off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 360,
+        "wires": [
+            [
+                "e6a219d496ebfa96",
+                "1ff048b32cb1c096"
+            ]
+        ]
+    },
+    {
+        "id": "145c79e8e785738b",
+        "type": "comment",
+        "z": "c35c8c76dd631a23",
+        "name": "Click me to read more",
+        "info": "This flow is using an http input to invoke led commands such as on, off, and blink, When using a given end point (like /off or /blink) the led will repsond to the url call with that function. This flow is strictly using the yellow led. Blinking is using a loop going from off (0) to on (1) with a delay of one second. When this url is invoked the led will alter between off and on with a space of 1 second between until another command is applied. ",
+        "x": 240,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "f3732bd38180d8b8",
+        "type": "http in",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "url": "/on",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 360,
+        "y": 180,
+        "wires": [
+            [
+                "016050cf387c367d",
+                "48746491b13fd23f"
+            ]
+        ]
+    },
+    {
+        "id": "0484471ab53e7b40",
+        "type": "http in",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "url": "/off",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "57c044eb67ab5bb4",
+                "0c11264e1053b588"
+            ]
+        ]
+    },
+    {
+        "id": "724c8021620bbb9e",
+        "type": "http in",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "url": "/blink",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 340,
+        "y": 700,
+        "wires": [
+            [
+                "2ca2ad59be4498b3",
+                "577bd43ba46fcb34"
+            ]
+        ]
+    },
+    {
+        "id": "577bd43ba46fcb34",
+        "type": "http response",
+        "z": "f18401c4661d36e5",
+        "name": "HTTP Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1340,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "01970d24ea9fa1cf",
+        "type": "rpi-gpio out",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "pin": "21",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 980,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "f756b18e755776c5",
+        "type": "rpi-gpio out",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "pin": "21",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 940,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "016050cf387c367d",
+        "type": "change",
+        "z": "f18401c4661d36e5",
+        "name": "on",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 180,
+        "wires": [
+            [
+                "01970d24ea9fa1cf",
+                "577bd43ba46fcb34"
+            ]
+        ]
+    },
+    {
+        "id": "5acfae891b41491c",
+        "type": "rpi-gpio out",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "pin": "21",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 1380,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "7b26e473b7485faa",
+        "type": "delay",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 720,
+        "y": 700,
+        "wires": [
+            [
+                "edbec2fbf69494c4"
+            ]
+        ]
+    },
+    {
+        "id": "edbec2fbf69494c4",
+        "type": "function",
+        "z": "f18401c4661d36e5",
+        "name": "on",
+        "func": "msg.payload = 1;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 700,
+        "wires": [
+            [
+                "780682f4c92434e4",
+                "5acfae891b41491c"
+            ]
+        ]
+    },
+    {
+        "id": "780682f4c92434e4",
+        "type": "delay",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1020,
+        "y": 700,
+        "wires": [
+            [
+                "43074fddf3742daa"
+            ]
+        ]
+    },
+    {
+        "id": "43074fddf3742daa",
+        "type": "function",
+        "z": "f18401c4661d36e5",
+        "name": "off",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1190,
+        "y": 700,
+        "wires": [
+            [
+                "841160df2c889c9c",
+                "5acfae891b41491c",
+                "78e24cb3e2fb794c"
+            ]
+        ]
+    },
+    {
+        "id": "841160df2c889c9c",
+        "type": "switch",
+        "z": "f18401c4661d36e5",
+        "name": "repeat",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 810,
+        "y": 860,
+        "wires": [
+            [
+                "7b26e473b7485faa"
+            ],
+            [
+                "2ca2ad59be4498b3"
+            ]
+        ]
+    },
+    {
+        "id": "2ca2ad59be4498b3",
+        "type": "function",
+        "z": "f18401c4661d36e5",
+        "name": "off",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 700,
+        "wires": [
+            [
+                "7b26e473b7485faa"
+            ]
+        ]
+    },
+    {
+        "id": "57c044eb67ab5bb4",
+        "type": "change",
+        "z": "f18401c4661d36e5",
+        "name": "off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 440,
+        "wires": [
+            [
+                "f756b18e755776c5",
+                "577bd43ba46fcb34"
+            ]
+        ]
+    },
+    {
+        "id": "bc2394918cade905",
+        "type": "debug",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "596dce4edeaad734",
+        "type": "file",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "filename": "On.txt",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 550,
+        "y": 300,
+        "wires": [
+            [
+                "bc2394918cade905"
+            ]
+        ]
+    },
+    {
+        "id": "48746491b13fd23f",
+        "type": "change",
+        "z": "f18401c4661d36e5",
+        "name": "on",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "596dce4edeaad734"
+            ]
+        ]
+    },
+    {
+        "id": "0c11264e1053b588",
+        "type": "change",
+        "z": "f18401c4661d36e5",
+        "name": "off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 540,
+        "wires": [
+            [
+                "a595ae030d78e933"
+            ]
+        ]
+    },
+    {
+        "id": "a595ae030d78e933",
+        "type": "file",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "filename": "Off.txt",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 410,
+        "y": 520,
+        "wires": [
+            [
+                "0f940e667b1acfed"
+            ]
+        ]
+    },
+    {
+        "id": "0f940e667b1acfed",
+        "type": "debug",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "78e24cb3e2fb794c",
+        "type": "file",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "filename": "blink.txt",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1320,
+        "y": 840,
+        "wires": [
+            [
+                "4a4049e35d44b713"
+            ]
+        ]
+    },
+    {
+        "id": "4a4049e35d44b713",
+        "type": "debug",
+        "z": "f18401c4661d36e5",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1490,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "95ab4ac167081f5c",
+        "type": "comment",
+        "z": "f18401c4661d36e5",
+        "name": "Click me to read more",
+        "info": "This flow is using the previous flow (Part 5) to also save files. Each command has it's own file that will be saved after the url is invoked. Example: Using 'On' will save an 'On.txt' file with the status of that page. On.txt will then save the value '1.' ",
+        "x": 360,
+        "y": 80,
+        "wires": []
+    }
+]

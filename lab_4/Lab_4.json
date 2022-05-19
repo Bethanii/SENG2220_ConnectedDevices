@@ -1,0 +1,244 @@
+[
+    {
+        "id": "fbf2477d3f94c7fb",
+        "type": "tab",
+        "label": "Lab 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b98bc818e7ae3cd0",
+        "type": "http in",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "url": "/led",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 280,
+        "y": 320,
+        "wires": [
+            [
+                "b2a24329b14290e5"
+            ]
+        ]
+    },
+    {
+        "id": "b2a24329b14290e5",
+        "type": "file in",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "filename": "/home/pi/pyiot/chapter03/templates/index_api_client.html",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 790,
+        "y": 320,
+        "wires": [
+            [
+                "cee201247962cade"
+            ]
+        ]
+    },
+    {
+        "id": "cee201247962cade",
+        "type": "http response",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1190,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "d8de27e9686a4db9",
+        "type": "http in",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "url": "/led",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 280,
+        "y": 440,
+        "wires": [
+            [
+                "50e922239095ef9a",
+                "aac49f0f62bff35a"
+            ]
+        ]
+    },
+    {
+        "id": "9ba7abc9f98412c5",
+        "type": "rpi-gpio out",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "pin": "20",
+        "set": "",
+        "level": "0",
+        "freq": "100",
+        "out": "pwm",
+        "bcm": true,
+        "x": 800,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "50e922239095ef9a",
+        "type": "function",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "func": "msg.payload = msg.payload.level;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 440,
+        "wires": [
+            [
+                "9ba7abc9f98412c5",
+                "cee201247962cade"
+            ]
+        ]
+    },
+    {
+        "id": "fcfc4f2e8bf7c161",
+        "type": "http in",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "url": "/static/jquery.min.js",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 380,
+        "y": 640,
+        "wires": [
+            [
+                "e4a9b4353e2c647b",
+                "f5218c7e42453128"
+            ]
+        ]
+    },
+    {
+        "id": "e4a9b4353e2c647b",
+        "type": "file in",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "filename": "/home/pi/pyiot/chapter03/static/jquery.min.js",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 770,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f5218c7e42453128",
+        "type": "debug",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "fafcfa9989027647",
+        "type": "inject",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{ \"level\": 50 }",
+        "payloadType": "json",
+        "x": 350,
+        "y": 160,
+        "wires": [
+            [
+                "d16b4dfdb4c19c62"
+            ]
+        ]
+    },
+    {
+        "id": "d16b4dfdb4c19c62",
+        "type": "http request",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/led",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 550,
+        "y": 160,
+        "wires": [
+            [
+                "a125edbc3f026d23"
+            ]
+        ]
+    },
+    {
+        "id": "a125edbc3f026d23",
+        "type": "debug",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "aac49f0f62bff35a",
+        "type": "debug",
+        "z": "fbf2477d3f94c7fb",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 540,
+        "wires": []
+    }
+]
